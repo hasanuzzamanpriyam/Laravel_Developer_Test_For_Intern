@@ -106,20 +106,6 @@ Same for `/states` and `/cities`. You can also pass `?country_id=1` to filter st
 
 ---
 
-## 📸 Screenshots
-
-| Manage Countries        | Manage Cities        |
-|-------------------------|----------------------|
-| ![Countries](screenshots/countries.png) | ![Cities](screenshots/cities.png) |
-
----
-
-## 📌 To-Do
-
-- [ ] Add search and pagination
-- [ ] Add user authentication (optional)
-- [ ] Migrate to Vue or React for SPA
-
 ---
 
 ## 🧑‍💻 Author
