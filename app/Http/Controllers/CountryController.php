@@ -7,21 +7,29 @@ use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
-    // Get all countries (for AJAX)
+    // Get all countries (AJAX)
     public function index()
     {
-        return response()->json(Country::all());
+        return response()->json([
+            'success' => true,
+            'data' => Country::all()
+        ]);
     }
 
     // Create a new country
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|unique:countries|max:255',
+            'name' => 'required|string|unique:countries,name|max:255',
         ]);
 
         $country = Country::create($validated);
-        return response()->json($country, 201);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Country created successfully',
+            'data' => $country
+        ], 201);
     }
 
     // Update a country
@@ -32,13 +40,22 @@ class CountryController extends Controller
         ]);
 
         $country->update($validated);
-        return response()->json($country);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Country updated successfully',
+            'data' => $country
+        ]);
     }
 
-    // Delete a country (cascades to states/cities via SQL)
+    // Delete a country (cascades to states & cities via SQL)
     public function destroy(Country $country)
     {
         $country->delete();
-        return response()->json(null, 204);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Country and related states/cities deleted successfully'
+        ], 204);
     }
 }
