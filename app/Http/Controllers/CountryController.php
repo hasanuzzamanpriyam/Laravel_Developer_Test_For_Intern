@@ -32,6 +32,14 @@ class CountryController extends Controller
         ], 201);
     }
 
+    public function show(Country $country)
+    {
+        return response()->json([
+            'success' => true,
+            'data' => $country
+        ]);
+    }
+
     // Update a country
     public function update(Request $request, Country $country)
     {

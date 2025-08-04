@@ -7,11 +7,15 @@ use Illuminate\Http\Request;
 
 class StateController extends Controller
 {
-    // Get states by country_id (for dynamic dropdowns)
+    // Get all states for a country (AJAX)
     public function index(Request $request)
     {
         $states = State::where('country_id', $request->country_id)->get();
-        return response()->json($states);
+
+        return response()->json([
+            'success' => true,
+            'data' => $states
+        ]);
     }
 
     // Create a new state
@@ -23,8 +27,53 @@ class StateController extends Controller
         ]);
 
         $state = State::create($validated);
-        return response()->json($state, 201);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'State created successfully',
+            'data' => $state
+        ], 201);
     }
 
-    // Update/Delete methods similar to CountryController
+    // Show a single state (optional for editing forms)
+    public function show($id)
+    {
+        $state = State::findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'data' => $state
+        ]);
+    }
+
+    // Update state
+    public function update(Request $request, $id)
+    {
+        $state = State::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'country_id' => 'required|exists:countries,id',
+        ]);
+
+        $state->update($validated);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'State updated successfully',
+            'data' => $state
+        ]);
+    }
+
+    // Delete state (cascades to cities)
+    public function destroy($id)
+    {
+        $state = State::findOrFail($id);
+        $state->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'State and related cities deleted successfully'
+        ], 204);
+    }
 }

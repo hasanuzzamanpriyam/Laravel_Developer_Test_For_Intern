@@ -7,11 +7,15 @@ use Illuminate\Http\Request;
 
 class CityController extends Controller
 {
-    // Get cities by state_id (for dynamic dropdowns)
+    // Get all cities for a state
     public function index(Request $request)
     {
         $cities = City::where('state_id', $request->state_id)->get();
-        return response()->json($cities);
+
+        return response()->json([
+            'success' => true,
+            'data' => $cities
+        ]);
     }
 
     // Create a new city
@@ -23,45 +27,53 @@ class CityController extends Controller
         ]);
 
         $city = City::create($validated);
-        return response()->json($city, 201);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'City created successfully',
+            'data' => $city
+        ], 201);
     }
 
-    public function show(Request $request, $id)
+    // Show a city (optional for editing)
+    public function show($id)
     {
-        // Find the city by ID and return it
-        if (!$request->has('state_id')) {
-            $request->merge(['state_id' => City::findOrFail($id)->state_id]);
-        }
-        $validated = $request->validate([
-            'state_id' => 'required|exists:states,id',
-        ]);
         $city = City::findOrFail($id);
-        return response()->json($city);
+
+        return response()->json([
+            'success' => true,
+            'data' => $city
+        ]);
     }
 
-    // Update an existing city
+    // Update city
     public function update(Request $request, $id)
     {
+        $city = City::findOrFail($id);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'state_id' => 'required|exists:states,id',
         ]);
 
-        // Find the city by ID and update it
-        if (!$request->has('state_id')) {
-            $validated['state_id'] = City::findOrFail($id)->state_id;
-        }
-
-        $city = City::findOrFail($id);
         $city->update($validated);
-        return response()->json($city);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'City updated successfully',
+            'data' => $city
+        ]);
     }
 
-    // Delete a city
+    // Delete city
     public function destroy($id)
     {
         $city = City::findOrFail($id);
         $city->delete();
-        return response()->json(null, 204);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'City deleted successfully'
+        ], 204);
     }
 }
