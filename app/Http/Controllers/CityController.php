@@ -9,14 +9,14 @@ class CityController extends Controller
 {
     // Get all cities for a state
     public function index(Request $request)
-    {
-        $cities = City::where('state_id', $request->state_id)->get();
+{
+    $cities = City::with('state.country')->get();
 
-        return response()->json([
-            'success' => true,
-            'data' => $cities
-        ]);
-    }
+    return response()->json([
+        'success' => true,
+        'data' => $cities
+    ]);
+}
 
     // Create a new city
     public function store(Request $request)
@@ -37,33 +37,28 @@ class CityController extends Controller
 
     // Show a city (optional for editing)
     public function show($id)
-    {
-        $city = City::findOrFail($id);
+{
+    $city = City::with('state.country')->findOrFail($id);
 
-        return response()->json([
-            'success' => true,
-            'data' => $city
-        ]);
-    }
+    return response()->json([
+        'success' => true,
+        'data' => $city
+    ]);
+}
+
 
     // Update city
-    public function update(Request $request, $id)
-    {
-        $city = City::findOrFail($id);
+    public function update(Request $request, City $city)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'state_id' => 'required|exists:states,id',
+    ]);
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'state_id' => 'required|exists:states,id',
-        ]);
+    $city->update($validated);
 
-        $city->update($validated);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'City updated successfully',
-            'data' => $city
-        ]);
-    }
+    return response()->json(['success' => true, 'message' => 'City updated']);
+}
 
     // Delete city
     public function destroy($id)

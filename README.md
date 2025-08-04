@@ -1,39 +1,133 @@
-# Laravel Developer Pre-Interview Test
 
-## Instructions
+# 🌍 Country-State-City CRUD App (Laravel + jQuery + Bootstrap)
 
-1. Fork this repository or clone and complete the test.
-2. Inside the `public` directory, you will find an `HTML` directory containing an HTML template. Use this template to build the front end for CRUD operations.
-3. Submit your solution as a GitHub repository link or a compressed file with your code.
-4. Ensure your code is well-structured, follows best practices, and includes comments where necessary.
+This is a dynamic **Country-State-City management system** built using **Laravel (API)**, **jQuery**, and **Bootstrap 5**. It supports creating, reading, updating, and deleting (CRUD) entries for countries, states, and cities, with intuitive dropdown dependencies and smooth UI interactions using SweetAlert and collapsible sections.
 
-## Test Requirements
+---
 
-### 1. Country-State-City CRUD with SQL Relationships and AJAX
+## ✨ Features
 
-- **Task**: Create a CRUD application for managing **countries**, **states**, and **cities** with the following requirements:
-    - A **country** can have multiple **states**.
-    - Each **state** can have multiple **cities**.
-    - Implement proper relationships between these models using SQL (foreign keys).
-- **Endpoints Required**:
-    - **Country**: `Create`, `Read`, `Update`, `Delete`
-    - **State**: `Create`, `Read`, `Update`, `Delete`
-    - **City**: `Create`, `Read`, `Update`, `Delete`
-- **AJAX Requirements**:
-    - All CRUD operations must be implemented using AJAX to handle data asynchronously.
-    - Display success/error messages without page reloads.
-- **Notes**:
-    - Use SQL relationships to manage associations between tables.
-    - Ensure that **country** or **state** cascades are deleted from associated **states** and **cities** as appropriate.
+- ✅ CRUD operations for Countries, States, and Cities
+- ✅ Cascading dropdowns: Country → State → City
+- ✅ SweetAlert2 for modern alerts and confirmations
+- ✅ Bootstrap 5 UI with collapsible cards
+- ✅ Auto-fill form when editing
+- ✅ Real-time updates with jQuery AJAX
 
-### 2. General Guidelines
+---
 
-- Use **Laravel 11**.
-- **Code Quality**: Ensure clean, readable, and maintainable code.
-- **Comments**: Add comments explaining complex logic or unique solutions.
-- **Testing**: Add basic tests to verify that AJAX CRUD operations work as expected.
+## 📁 Tech Stack
 
-## Bonus Points
+| Layer       | Tech                     |
+|-------------|--------------------------|
+| Backend     | Laravel 11 API           |
+| Frontend    | HTML, Bootstrap 5        |
+| Interactivity | jQuery 3.6, SweetAlert2 |
+| Database    | MySQL                    |
 
-- **Validation Rules**: Use validation rules for each AJAX form submission (e.g., required fields, format validation).
+---
 
+## 🚀 Getting Started
+
+### 1. Clone the Repo
+
+```bash
+git clone https://github.com/hasanuzzamanpriyam/laravel-country-state-city-crud.git
+cd laravel-country-state-city-crud
+```
+
+### 2. Install Dependencies
+
+```bash
+composer install
+or
+composer update
+```
+
+### 3. Setup `.env` and Database
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Update `.env` file with your MySQL credentials:
+
+```env
+DB_DATABASE=your_db
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Then run migrations:
+
+```bash
+php artisan migrate
+```
+
+### 4. Run the Application
+
+```bash
+php artisan serve
+```
+
+Visit: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+---
+
+## 📂 Project Structure
+
+```
+├── public/
+│   └── js/
+│       └── crud.js          # All AJAX and form handling
+|       └── css/
+│       └── style.css          # Custom CSS
+├── resources/
+│   └── views/
+│       └── index.blade.php  # Main frontend UI
+├── routes/
+│   └── api.php              # API routes
+├── app/
+│   └── Http/
+│       └── Controllers/     # CountryController, StateController, CityController
+```
+
+---
+
+## 🧠 API Endpoints
+
+- `GET /api/countries`
+- `POST /api/countries`
+- `PUT /api/countries/{id}`
+- `DELETE /api/countries/{id}`
+
+Same for `/states` and `/cities`. You can also pass `?country_id=1` to filter states.
+
+---
+
+## 📸 Screenshots
+
+| Manage Countries        | Manage Cities        |
+|-------------------------|----------------------|
+| ![Countries](screenshots/countries.png) | ![Cities](screenshots/cities.png) |
+
+---
+
+## 📌 To-Do
+
+- [ ] Add search and pagination
+- [ ] Add user authentication (optional)
+- [ ] Migrate to Vue or React for SPA
+
+---
+
+## 🧑‍💻 Author
+
+Made by [Hasanuzzaman Priyam](https://github.com/hasanuzzamanpriyam)
+
+---
+
+## 📜 License
+
+This project is open-sourced under the [MIT License](LICENSE).

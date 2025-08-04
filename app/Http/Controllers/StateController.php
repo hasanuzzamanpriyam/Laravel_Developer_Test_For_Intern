@@ -9,14 +9,15 @@ class StateController extends Controller
 {
     // Get all states for a country (AJAX)
     public function index(Request $request)
-    {
-        $states = State::where('country_id', $request->country_id)->get();
+{
+    $states = State::with('country')->get();
 
-        return response()->json([
-            'success' => true,
-            'data' => $states
-        ]);
-    }
+    return response()->json([
+        'success' => true,
+        'data' => $states
+    ]);
+}
+
 
     // Create a new state
     public function store(Request $request)

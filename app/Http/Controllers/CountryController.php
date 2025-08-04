@@ -48,6 +48,7 @@ class CountryController extends Controller
         ]);
 
         $country->update($validated);
+        // dd(request()->all(), $country);
 
         return response()->json([
             'success' => true,

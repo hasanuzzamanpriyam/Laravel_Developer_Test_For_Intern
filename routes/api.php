@@ -5,10 +5,17 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\CityController;
 
-Route::apiResource('countries', CountryController::class);
-Route::apiResource('states', StateController::class)->except(['index']);
-Route::apiResource('cities', CityController::class)->except(['index']);
+/*
+|--------------------------------------------------------------------------
+| API Routes for Country-State-City CRUD
+|--------------------------------------------------------------------------
+*/
 
-// Additional routes for dynamic dropdowns
-Route::get('states', [StateController::class, 'index']); // ?country_id=1
-Route::get('cities', [CityController::class, 'index']);  // ?state_id=1
+Route::apiResource('countries', CountryController::class);
+
+// State CRUD (nested under countries, but also accessible directly)
+Route::apiResource('states', StateController::class);
+
+// City CRUD (nested under states, but also accessible directly)
+Route::apiResource('cities', CityController::class);
+
